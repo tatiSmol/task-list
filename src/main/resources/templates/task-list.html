@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>To Do List</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+</head>
+
+<style>
+    .text {
+        text-align:center;
+    }
+
+    .nav-pills .nav-link.active {
+        background-color: green;
+        color: white;
+    }
+
+    .nav-pills .nav-link {
+        color: green;
+    }
+
+    .task-link {
+        color: red;
+        text-align: center;
+    }
+
+    .post-date {
+      font-style: italic;
+      font-size: smaller;
+      text-align: right;
+    }
+
+    .post-block {
+      background-color: #2E8B57;
+      padding: 10px;
+      margin: 10px;
+      border-radius: 10px;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+      height: 100%;
+    }
+    .card {
+      height: 100%;
+    }
+
+    .post-block a.btn:hover {
+      background-color: #3CB371;
+      color: #fff;
+    }
+</style>
+
+<body class="d-flex h-100 text-center text-bg-dark">
+
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+
+    <header class="d-flex justify-content-center py-3">
+        <ul class="nav nav-pills">
+            <li class="nav-item"><a href="/" class="nav-link" aria-current="page">Home</a></li>
+            <li class="nav-item"><a href="/tasklist" class="nav-link active">Task List</a></li>
+        </ul>
+    </header>
+
+    <div class="container mt-2">
+        <h1 style="text-align: center">To-do list (<span th:text="${tasksCount}">0</span>)</h1>
+        <div th:each="entry : ${tasksByDate}">
+            <br>
+            <h2 th:text="${entry.key}"></h2>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                <div th:each="task : ${entry.value}" class="col-md-4">
+                    <div class="post-block">
+                        <div class="post-date" th:text="${#temporals.format(task.dateTime, 'HH:mm')}"></div>
+                        <h3 class="card-title" th:text="${task.name}"></h3>
+                        <p class="card-text" th:text="${task.shortDescription}"></p>
+                        <div class="card-footer">
+                            <a th:href="@{/updatetask/{id}(id=${task.id})}"
+                               class="btn btn-lg btn-light fw-bold border-white bg-white" type="submit">Update</a>
+                            <a th:href="@{/deletetask/{id}(id=${task.id})}"
+                               class="btn btn-lg btn-light fw-bold border-white bg-white" type="submit">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <br/><br/>
+        <p class="lead">
+        <a th:href="@{/addnew}" class="btn btn-lg btn-light fw-bold border-white bg-white" type="submit">Add a new case</a>
+        </p>
+        <br>
+
+    <footer class="mt-auto text-white-50">
+        <p>Cover template for <a href="https://getbootstrap.com/" class="text-white">Bootstrap</a>, by <a href="https://twitter.com/mdo" class="text-white">@mdo</a>.</p>
+    </footer>
+</div>
+
+</body>
+</html>
