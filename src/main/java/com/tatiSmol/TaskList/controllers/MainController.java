@@ -5,6 +5,7 @@ import com.tatiSmol.TaskList.model.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.format.DateTimeFormatter;
@@ -43,9 +44,6 @@ public class MainController {
 
         return "task-list";
     }
-}
-
-/*
 
     @RequestMapping("/addnew")
     public String addNewTask(Model model) {
@@ -54,4 +52,12 @@ public class MainController {
 
         return "newtask";
     }
- */
+
+    @RequestMapping("/save")
+    public String saveTask(@ModelAttribute("task") Task task) {
+        repository.save(task);
+
+        return "redirect:/";
+    }
+
+}

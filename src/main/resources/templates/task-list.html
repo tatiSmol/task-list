@@ -57,11 +57,12 @@
         <ul class="nav nav-pills">
             <li class="nav-item"><a href="/" class="nav-link" aria-current="page">Home</a></li>
             <li class="nav-item"><a href="/tasklist" class="nav-link active">Task List</a></li>
+            <li class="nav-item"><a href="/addnew" class="nav-link">New task</a></li>
         </ul>
     </header>
 
     <div class="container mt-2">
-        <h1 style="text-align: center">To-do list (<span th:text="${tasksCount}">0</span>)</h1>
+        <h1 style="text-align: center">To-do List (<span th:text="${tasksCount}">0</span>)</h1>
         <div th:each="entry : ${tasksByDate}">
             <br>
             <h2 th:text="${entry.key}"></h2>
@@ -85,7 +86,7 @@
 
         <br/><br/>
         <p class="lead">
-        <a th:href="@{/addnew}" class="btn btn-lg btn-light fw-bold border-white bg-white" type="submit">Add a new case</a>
+        <a th:href="@{/addnew}" class="btn btn-lg btn-light fw-bold border-white bg-white" type="submit">Add a new task</a>
         </p>
         <br>
 
