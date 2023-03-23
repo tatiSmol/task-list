@@ -67,4 +67,12 @@ public class MainController {
 
         return "redirect:/tasklist";
     }
+
+    @RequestMapping("/updatetask/{id}")
+    public String updateTask(@PathVariable(value = "id") int id, Model model) {
+        Optional<Task> task = repository.findById(id);
+        model.addAttribute("task", task);
+
+        return "updatetask";
+    }
 }

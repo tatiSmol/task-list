@@ -44,4 +44,27 @@ public class TaskController {
         repository.deleteById(id);
         return new ResponseEntity("Task with id" + id + " has been deleted.", HttpStatus.OK);
     }
+
+    @GetMapping("/tasks/{id}")
+    public synchronized ResponseEntity get(@PathVariable int id) {
+        Optional<Task> optionalTask = repository.findById(id);
+        if (optionalTask.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return new ResponseEntity(optionalTask, HttpStatus.OK);
+    }
+
+    @PutMapping("/tasks/{id}")
+    public synchronized ResponseEntity update(@PathVariable int id, Task newTask) {
+        Optional<Task> optionalTask = repository.findById(id);
+        if (optionalTask.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        Task task = optionalTask.get();
+        task.setName(newTask.getName());
+        task.setShortDescription(newTask.getShortDescription());
+        repository.save(task);
+        return new ResponseEntity(task, HttpStatus.OK);
+    }
+
 }
