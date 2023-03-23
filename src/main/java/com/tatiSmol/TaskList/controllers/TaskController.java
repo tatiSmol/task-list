@@ -3,13 +3,14 @@ package com.tatiSmol.TaskList.controllers;
 import com.tatiSmol.TaskList.model.Task;
 import com.tatiSmol.TaskList.model.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class TaskController {
@@ -32,5 +33,15 @@ public class TaskController {
     public synchronized int add(Task task) {
         Task newTask = repository.save(task);
         return newTask.getId();
+    }
+
+    @DeleteMapping("/tasks/{id}")
+    public synchronized ResponseEntity delete(@PathVariable int id) {
+        Optional<Task> optionalTask = repository.findById(id);
+        if (optionalTask.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        repository.deleteById(id);
+        return new ResponseEntity("Task with id" + id + " has been deleted.", HttpStatus.OK);
     }
 }
